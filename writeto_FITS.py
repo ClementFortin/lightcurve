@@ -55,7 +55,7 @@ def lc(events, time, cps, cps_err=None, bins=300, gti=None, author=None, SIM_id=
         else:
             cps_err = np.insert(cps_err, len(cps_err), cps_err[-1])
     bins_array = np.arange(0, (time[-1]-time[0])/bins, 1, dtype=int) + 1 # numbered bins
-    bins_left = np.linspace(time[0], time[-1], int((time[-1]-time[0])/bins)+1, dtype=int)[:-1]
+    bins_left = np.linspace(time[0], time[-1], int((time[-1]-time[0])/bins)+1)[:-1]
     bins_mid = bins_left + bins/2
     bins_right = bins_left + bins 
     # binning arrays
