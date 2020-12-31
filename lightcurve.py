@@ -94,9 +94,10 @@ def create_events(time, cps, cps_err=0):
     cps_high = cps + cps_err # upper bounds
     # Sample required values
     cps_rand = np.random.uniform(cps_low, cps_high)
-    # Reshaping time array to create intervals (adding element t[-1] + dt[-1] at the end to not lose last cps value)
-    tstart = time
-    tstop = np.concatenate([ time[time != time[0]], [2*time[-1] - time[-2]] ])
+    # Reshaping time arrays into blocks with midpoint = data points (except for first and last)
+    dt = (time[1:] - time[:-1]) / 2
+    tstart = np.concatenate([[time[0]], dt + time[:-1]])
+    tstop = np.concatenate([dt + time[:-1], [time[-1]]])
     intervals = np.column_stack((tstart, tstop))
     Ncounts = np.random.poisson(cps_rand * (tstop - tstart)) 
     print("Total number of events generated:", sum(Ncounts))
@@ -116,3 +117,4 @@ def create_events(time, cps, cps_err=0):
     return events
 
 #____________________________________________________________________________________________________
+
